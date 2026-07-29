@@ -1,10 +1,18 @@
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 
 st.set_page_config(page_title="World Happiness", page_icon="🌍", layout="wide")
 
-df = pd.read_csv('../data/world_happiness_2023.csv')
+# Build the data path relative to this script's own location, not the
+# current working directory — Streamlit Community Cloud runs apps from the
+# repo root, while running locally from this folder uses '../data/...'.
+# Using __file__ makes it work correctly in both places.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, '..', 'data', 'world_happiness_2023.csv')
+
+df = pd.read_csv(DATA_PATH)
 df.columns = ['Country','Region','Score','GDP','Social_Support',
               'Life_Expectancy','Freedom','Generosity','Corruption']
 
